@@ -4,7 +4,11 @@
     <mat-card-title #name>{{film.title}}</mat-card-title>
     <mat-card-subtitle>{{film.release_date}}</mat-card-subtitle>
   </mat-card-header>
+  <!-- <img mat-card-image [src]="film.poster_path" onError="this.src='assets/my/fancy/loader.gif;'" alt="{{film.title}}"> -->
   <img mat-card-image [src]="film.poster_path" alt="{{film.title}}">
+  <!-- <img *ngIf="loading" src="/assets/loading.gif" alt="loading" /> -->
+
+  <!-- <img [hidden]="loading" (load)="onLoad()" src="{{film.poster_path}}" /> -->
   <mat-card-content>
     <p>
       {{film.overview | slice:0:120}}...
@@ -21,7 +25,7 @@
         menu
       </i>
     </button>
-    <button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="startFilm(film)">
+    <button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="starFilm(film)">
       <i class="material-icons">star</i>
     </button>
   </mat-card-actions>

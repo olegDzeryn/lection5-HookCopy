@@ -2,15 +2,16 @@
 
   <mat-toolbar class="menu-toolbar">
     <mat-toolbar-row>
-      <span>В избранное добавлено: {{favoriteFilmsCount}} элементов</span>
+      <span [class.a]="!variantDisplay">В избранное фильмов добавлено: {{favoriteFilmsCount}} элементов</span>
+      <span [class.a]="variantDisplay">В избранное актеров добавлено: {{favoriteActorsCount}} элементов</span>
 
 
-      <app-search-films [filmsData]="filmsDataFull" [actorsData]="actorsDataFull">
+      <!-- <app-search-films [filmsData]="filmsDataFull" [actorsData]="actorsDataFull">
 
       </app-search-films>
       <button mat-raised-button (click)="searchFilms()">Поиск фильма</button>
       <br>
-      <button mat-raised-button (click)="searchActors()">Поиск актера</button>
+      <button mat-raised-button (click)="searchActors()">Поиск актера</button> -->
 
       <span class="example-spacer"></span>
       <div>
@@ -26,17 +27,17 @@
   </mat-toolbar>
 
 </mat-card>
+<mat-spinner class="spinner-position" *ngIf="activeSpinner"></mat-spinner>>
 
-<mat-grid-list cols="3" rowHeight="840px" [class.a]="variantDisplay">
+<mat-grid-list cols="3" rowHeight="840px" [class.a]="!variantDisplay">
   <mat-grid-tile colspan=" 1 " *ngFor="let film of filmsData ">
-    <app-film-item [film]="film " [counter]="counter" (star)="makeStar($event) "></app-film-item>
+    <app-film-item [film]="film " [counter]="counter" (star)="makeStarFilms($event) "></app-film-item>
   </mat-grid-tile>
 </mat-grid-list>
 
-<mat-grid-list cols="3 " rowHeight="840px" [class.a]="!variantDisplay">
+<mat-grid-list cols="3 " rowHeight="840px" [class.a]="variantDisplay">
   <mat-grid-tile colspan="1 " *ngFor="let actor of actorsData ">
-
-    <app-actor-item [actor]="actor "></app-actor-item>
+    <app-actor-item [actor]="actor " [counter]="counter" (star)="makeStarActors($event) "></app-actor-item>
   </mat-grid-tile>
 </mat-grid-list>
 
@@ -45,12 +46,12 @@
 
 <div class="main-container ">
   <div class="fixer-container ">
-    <button mat-raised-button color="primary" (click)="setPagingFilms()" [class.a]="variantDisplay" [disabled]="false ">Загрузить еще</button>
+    <button mat-raised-button color="primary" (click)="setPagingFilms()" [class.a]="!variantDisplay" [disabled]="false">Загрузить еще</button>
   </div>
 </div>
 
 <div class="main-container ">
   <div class="fixer-container ">
-    <button mat-raised-button color="primary" (click)="setPagingActors()" [class.a]="!variantDisplay" [disabled]="false ">Загрузить еще</button>
+    <button mat-raised-button color="primary" (click)="setPagingActors()" [class.a]="variantDisplay" [disabled]="false">Загрузить еще</button>
   </div>
 </div>

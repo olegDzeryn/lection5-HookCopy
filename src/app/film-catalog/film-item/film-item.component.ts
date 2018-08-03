@@ -11,9 +11,13 @@ export class FilmItemComponent implements OnInit {
   @Input() film: Film;
   @Input() acter: Actor;
   @Input() counter: number;
-  //@Output('star') starEmitter = new EventEmitter<Film>();
+  @Output('star') starEmitter = new EventEmitter<Film>();
 
   constructor() {
+  }
+  loading: boolean = true
+  onLoad() {
+    this.loading = false;
   }
   ngOnInit() { }
 
@@ -34,9 +38,9 @@ export class FilmItemComponent implements OnInit {
   // }
 
 
-  // startFilm(film: Film) {
-  //   this.starEmitter.emit(film);
-  // }
+  starFilm(film: Film) {
+    this.starEmitter.emit(film);
+  }
 
   // showFilmInfo() {
   //   console.log(this.film);

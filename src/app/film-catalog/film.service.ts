@@ -1,34 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Film } from '../film';
 import { Actor } from '../actor';
+import { Config } from '../config'
 import { SortOption } from '../sort-option';
 import { HttpClient } from '@angular/common/http';
+import { CONFIG_SERVICE } from '../config-service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilmService {
-  apiUrl: string = "https://api.themoviedb.org/3"
-  apiKey: string = '0994e7679a856150aadcecf7de489bce'
-  movieUrl: string = `${this.apiUrl}/movie`
-  searchUrl: string = `${this.apiUrl}/search`
-  personUrl: string = `${this.apiUrl}/person`
-  params: string = `&api_key=${this.apiKey}&language=ru-RU`
 
-  imgPath: string = 'https://image.tmdb.org/t/p'
-  midImgPath: string = `${this.imgPath}/w500`
-  smallImgPath: string = `${this.imgPath}/w185`
-  bigBackPath: string = `${this.imgPath}/w1280`
-  midBackPath: string = `${this.imgPath}/w780`
-  smallBackPath: string = `${this.imgPath}/w300`
+
 
   films: Film[] = [];
   actors: Actor[] = [];
 
-  constructor(
-    private http: HttpClient
-  ) { }
+
+
+  constructor(private http: HttpClient,
+    @Inject(CONFIG_SERVICE) public configService: Config) { }
 
   getActors() {
     return this.actors;
@@ -38,10 +31,12 @@ export class FilmService {
   }
 
   getPopularFilms(page?: number) {
-    return this.http.get(`${this.movieUrl}/popular?page=${page}${this.params}`)
+    return this.http.get(`${this.configService.movieUrl}/popular?page=${page}${this.configService.params}`)
   }
   getPopularActor(page?: number) {
-    return this.http.get(`${this.personUrl}/popular?page=${page}${this.params}`)
+    return this.http.get(`${this.configService.personUrl}/popular?page=${page}${this.configService.params}`)
   }
-
+  getSearchFilms(searchedFilm: string, page?: number) {
+    return this.http.get(`${this.configService.searchUrl}/movie?&query=${searchedFilm}${this.configService.params}&page=${page}&include_adult=false`)
+  }
 }
